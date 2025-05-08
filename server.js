@@ -1,77 +1,76 @@
 const express = require('express')
 const app = express()
-app.use(express.urlencoded({ extended:true}))
+
+app.use(express.urlencoded({ extended: true }))
+
+require("dotenv").config(); 
 
 app
-    .set('view engine', 'ejs')
-    .set('views', 'view')
+ .use('/static', express.static('static'))
 
-function movie(req, res, next){
-    let movie = {
-        title:'The Shawshank Redemption',
-        description: 'Andy Dufresne is young and'
+ .set('view engine', 'ejs')
+ .set('views', 'view')
+
+ .get('/songList', song)
+
+ .get('/', onhome)
+ .get('/about', onabout)
+
+ .listen(8000)
+
+function onhome(req, res) {
+    res.send('<h1>Hello World!</h1> <img src="/static/images/snoopy.jpg" alt="Poster" width="50%"/>')
+}
+
+function onabout(req, res) {
+    res.send(`<h1>About me!</h1> <img src="/static/images/postermockup.png" alt="Poster" width="50%"/>`)
+}
+
+
+function song(req, res, ) {
+    let song = {
+        title: 'FAMJAM400',
+        description: 'You watched me grow up from a...'
     }
-    res.render('detail.ejs', {data: movie})
-}
-
-app
-    .use('/static', express.static('static'))
-    .get('/', onhome)
-    .listen(8000)
-
-
-
-function onhome(req, res ){
-    res.send(
-    "<img src='static/images/coverfoto13.jpg'></img>"
-
-    )
-}
-
-app.get('/login', movie)
-function onlogin(req,res){
-    res.send("<img src='static/images/1.jpg'></img>")
+    
+    res.render('detail.ejs', {data: song})
 }
 
 
-app.get('/form', loginForm);
-app.post("/form", verwerkForm);
+const { MongoClient, ObjectId } = require("mongodb");
 
-function verwerkForm(req, res){
-    console.log("body: ", req.body);
+// Mongo configuratie uit .env bestand 
+const uri = process.env.URI;
+
+// nieuwe MongoDB client 
+const client = new MongoClient(uri);
+const db = client.db(process.env.DB_NAME);
+const collection = process.env.USER_COLLECTION;
+
+
+async function connectDB() {
+    try {
+        await client.connect()
+        console.log("Client connected to database");
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 
-function loginForm(req, res){
-    res.render('form.ejs')
-}
+connectDB(); 
 
 
 
-async function fetchData() {
-    const response = await fetch(
-      "https://www.amiiboapi.com/api/amiibo/?gameseries=Super%20Mario"
-    );
-    const data = await response.json();
-    const ulElement = document.querySelector("ul")
-    
-    
-    data.amiibo.forEach ((amiibo) => {
-      const liElement = document.createElement("li")
-      liElement.textContent = amiibo.character
-      ulElement.appendChild(liElement)
-      
-      const imgElement = document.createElement("img")
-      console.log(imgElement)
-      imgElement.src = amiibo.image
-      imgElement.alt = amiibo.character
-      liElement.appendChild(imgElement)
-    
-      ulElement.appendChild(imgElement)
-    })
-    
-    
-   
-  
-  }
-  
-  fetchData();
+
+
+
+
+
+
+
+
+
+
+
+
