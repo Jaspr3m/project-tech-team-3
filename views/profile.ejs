@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <h1>Welcome to my profile</h1>
+
+  <!-- Profielfoto -->
+  <img src="/static/images/profileivy.jpeg" alt="Profile photo" width="150">
+
+  <!-- Als we aan het bewerken zijn -->
+  <% if (editing) { %>
+    <form action="/profile/<%= profile._id %>" method="POST">
+      <p>
+        Name: <br>
+        <input type="text" name="name" value="<%= profile.name %>">
+      </p>
+      <p>
+        Location: <br>
+        <input type="text" name="location" value="<%= profile.location %>">
+      </p>
+      <p>
+        Tags: <br>
+        <input type="text" name="tags" value="<%= profile.tags ? profile.tags.join(', ') : '' %>">
+      </p>
+      <p>
+        Languages: <br>
+        <input type="text" name="languages" value="<%= profile.languages ? profile.languages.join(', ') : '' %>">
+      </p>
+      <p>
+        Bio: <br>
+        <textarea name="bio"><%= profile.bio %></textarea>
+      </p>
+      <button type="submit">Save</button>
+    </form>
+  <% } else { %>
+ 
+    <p><strong>Name:</strong> <%= profile.name %></p>
+    <p><strong>Location:</strong> <%= profile.location %></p>
+
+    <p><strong>Tags:</strong></p>
+    <p>
+      <%= profile.tags ? profile.tags.join(', ') : 'None' %>
+    </p>
+
+    <p><strong>Languages:</strong></p>
+    <p>
+      <%= profile.languages ? profile.languages.join(', ') : 'None' %>
+    </p>
+
+    <p><strong>Bio:</strong></p>
+    <p><%= profile.bio %></p>
+
+    <a href="/profile/<%= profile._id %>?edit=true">Edit Profile</a>
+  <% } %>
+
+</body>
+</html>
+

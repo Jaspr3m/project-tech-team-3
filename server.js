@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-
+const { MongoClient, ObjectId } = require("mongodb");
 app.use(express.urlencoded({ extended: true }))
 
 require("dotenv").config(); 
@@ -9,7 +9,7 @@ app
  .use('/static', express.static('static'))
 
  .set('view engine', 'ejs')
- .set('views', 'view')
+ .set('views', 'views')
 
  .get('/songList', song)
 
@@ -37,7 +37,6 @@ function song(req, res, ) {
 }
 
 
-const { MongoClient, ObjectId } = require("mongodb");
 
 // Mongo configuratie uit .env bestand 
 const uri = process.env.URI;
@@ -58,7 +57,51 @@ async function connectDB() {
     }
 }
 
-connectDB(); 
+connectDB()
+
+app.get('/create-test-profile', async (req, res) => {
+    try {
+        const userCollection = db.collection(collection);
+        const result = await userCollection.insertOne({
+            location: "Amsterdam",
+            tags: ["museum", "wandelen"],
+            gender: "vrouw"
+        });
+        res.send(`✅ Testprofiel aangemaakt! ID: ${result.insertedId}`);
+    } catch (err) {
+        res.status(500).send("❌ Er ging iets mis bij het aanmaken van een testprofiel.");
+    }
+});
+
+app.get('/profile/:id', async (req, res) => {
+    const userCollection = db.collection(collection);
+    const profile = await userCollection.findOne({ _id: new ObjectId(req.params.id) });
+    const editing = req.query.edit === 'true';
+    res.render('profile', { profile, editing });
+});
+
+app.post('/profile/:id', async (req, res) => {
+    const userCollection = db.collection(collection);
+    const { name, location, tags, languages, bio } = req.body;
+
+    await userCollection.updateOne(
+        { _id: new ObjectId(req.params.id) },
+        {
+            $set: {
+                name,
+                location,
+                bio,
+                tags: tags.split(',').map(s => s.trim()),
+                languages: languages.split(',').map(s => s.trim())
+            }
+        }
+    );
+    res.redirect(`/profile/${req.params.id}`);
+});
+
+
+
+
 
 
 
