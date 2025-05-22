@@ -22,8 +22,10 @@ app
     .get('/', onhome)
     .get('/about', onabout)
     .get('/formulier', toonformulier)
+    .get('/users', showUsers)
 
     .listen(8000)
+    console.log("Server listening @ localhost:8000!")
 
 app
     .post('/form', verwerkformulier)
@@ -90,7 +92,6 @@ async function hashData(data) {
   }
 }
 
-
 // Compare given and stored data (unchanged)
 async function compareData(plainTextData, hashedData) {
   try {
@@ -101,9 +102,6 @@ async function compareData(plainTextData, hashedData) {
     throw error;
   }
 }
-
-
-
 
 
 function onhome(req, res) {
@@ -124,9 +122,18 @@ function song(req, res,) {
     res.render('detail.ejs', { data: song })
 }
 
+async function showUsers(req, res) {
+    try {
+        // Find users with a 'voornaam' field (not null/undefined/empty)
+        const users = await db.collection('users').find({ voornaam: { $exists: true, $ne: '' } }).project({ _id: 1, voornaam: 1 }).toArray();
+        res.render('users.ejs', { users });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send('Error fetching users');
+    }
+}
 
-
-
+// Database connectie
 const { MongoClient, ObjectId } = require("mongodb");
 
 // Mongo configuratie uit .env bestand 
@@ -141,7 +148,7 @@ const collection = process.env.USER_COLLECTION;
 async function connectDB() {
     try {
         await client.connect()
-        console.log("Client connected to database");
+        console.log("Client has connected to TravelLink database!");
     }
     catch (error) {
         console.log(error);
