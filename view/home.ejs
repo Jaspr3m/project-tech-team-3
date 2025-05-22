@@ -1,0 +1,179 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TravelLink - Home</title>
+  <link rel="stylesheet" href="/static/css/stylehome.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo-link">
+      <img src="/static/images/tllogo.png" alt="Travel Link logo" class="logo-img">
+    </a>
+
+    <input type="text" class="search" placeholder="Beach walk, 'party', 'relaxing'">
+
+    <nav class="main-nav">
+      <button class="btn">Create Meet</button>
+      <button class="btn">Manage Meets</button>
+    </nav>
+
+    <section>
+        <a href="/notifications" class="icon">
+            <img src="/static/images/alarm.svg" alt="Notifications" class="icon-img">
+          </a>
+          
+          <a href="/messages" class="icon">
+            <img src="/static/images/communication.svg" alt="Messages" class="icon-img">
+          </a>
+          
+          <a href="/profile" class="icon">
+            <img src="/static/images/profiel.svg" alt="Profile" class="icon-img">
+          </a>
+          
+    </section>
+  </header>
+
+  <main>
+    <section class="join-section">
+      <h2>Join somebody near <em>you!</em></h2>
+      <ul class="card-list">
+        <% for (let i = 0; i < 8; i++) { %>
+        <li class="card">
+            <img src="/static/images/profiel.svg" alt="User Icon" />
+            <h3>Beach Walk</h3>
+            <p class="username">@jasprem_is_cool123</p>
+            <time datetime="14:00">14:00</time>
+          </li>
+        <% } %>
+      </ul>
+    </section>
+
+    <section class="map-section">
+      <h2>View all nearby locations</h2>
+      <img src="static/images/map_placeholder.png" alt="Map showing nearby locations" class="map-img">
+    </section>
+  </main>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelLink</title>
+    <link rel="stylesheet" href="/static/css/stylehome.css" />
+  </head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo-link">
+      <img src="/static/images/tllogo.png" alt="Travel Link logo" class="logo-img">
+    </a>
+
+    <input type="text" class="search" placeholder="Beach walk, 'party', 'relaxing'">
+
+    <nav class="main-nav">
+      <button class="btn">Create Meet</button>
+      <button class="btn">Manage Meets</button>
+    </nav>
+
+    <section>
+      <a href="/notifications" class="icon">
+        <img src="/static/images/alarm.svg" alt="Notifications" class="icon-img">
+      </a>
+      <a href="/messages" class="icon">
+        <img src="/static/images/communication.svg" alt="Messages" class="icon-img">
+      </a>
+      <a href="/profile" class="icon">
+        <img src="/static/images/profiel.svg" alt="Profile" class="icon-img">
+      </a>
+    </section>
+  </header>
+
+  <main>
+    <section class="join-section">
+      <h2>Join somebody near <em>you!</em></h2>
+      <ul class="card-list">
+        <% meetings.forEach(meet => { %>
+          <li class="card">
+            <img src="<%= meet.profileImage %>" alt="User Icon" />
+            <h3><%= meet.title %></h3>
+            <p class="username">@<%= meet.username %></p>
+            <time datetime="<%= meet.time.toISOString() %>">
+              <%= meet.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) %>
+            </time>
+          </li>
+        <% }) %>
+        <a href="/more-meets" class="see-more-btn">See More Meets</a>
+      </ul>
+      
+    </section>
+
+    <section class="map-section">
+      <h2>View all nearby locations</h2>
+      <img src="/static/images/map_placeholder.png" alt="Map showing nearby locations" class="map-img">
+    </section>
+  </main>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TravelLink</title>
+  <link rel="stylesheet" href="/static/css/stylehome.css" />
+</head>
+<body>
+  <header>
+    <a href="/">
+      <img src="/static/images/tllogo.png" alt="Travel Link logo">
+    </a>
+
+    <input type="text" placeholder="Beach walk, 'party', 'relaxing'">
+
+    <nav>
+      <button>Create Meet</button>
+      <button>Manage Meets</button>
+    </nav>
+
+    <section>
+      <a href="/notifications">
+        <img src="/static/images/alarm.svg" alt="Notifications">
+      </a>
+      <a href="/messages">
+        <img src="/static/images/communication.svg" alt="Messages">
+      </a>
+      <a href="/profile">
+        <img src="/static/images/profiel.svg" alt="Profile">
+      </a>
+    </section>
+  </header>
+
+  <main>
+    <section>
+      <h2>Join somebody near <em>you!</em></h2>
+      <ul>
+        <% meetings.forEach(meet => { %>
+          <li>
+            <img src="<%= meet.profileImage %>" alt="User Icon">
+            <h3><%= meet.title %></h3>
+            <p>@<%= meet.username %></p>
+            <time datetime="<%= meet.time.toISOString() %>">
+              <%= meet.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) %>
+            </time>
+          </li>
+        <% }) %>
+        <a href="/more-meets">See More Meets</a>
+      </ul>
+    </section>
+
+    <section>
+      <h2>View all nearby locations</h2>
+      <img src="/static/images/map_placeholder.png" alt="Map showing nearby locations">
+    </section>
+  </main>
+</body>
+</html>

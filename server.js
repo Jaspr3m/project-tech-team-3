@@ -19,7 +19,7 @@ app
     .set('views', 'view')
 
     .get('/songList', song)
-    .get('/', onhome)
+    // .get('/', onhome)
     .get('/about', onabout)
     .get('/formulier', toonformulier)
 
@@ -27,6 +27,49 @@ app
 
 app
     .post('/form', verwerkformulier)
+
+// app.get('/home', (req, res) => {
+//     res.render('home');
+// });
+
+
+app.get('/', (req, res) => {
+    const meetings = [
+      {
+        _id: '1',
+        title: 'Beach Walk',
+        username: 'jasprem_is_cool123',
+        time: new Date('2025-05-22T14:00:00'),
+        profileImage: '/static/images/profiel.svg'
+      },
+      {
+        _id: '2',
+        title: 'Mountain Hike',
+        username: 'kioko_mickey',
+        time: new Date('2025-05-22T16:30:00'),
+        profileImage: '/static/images/profiel.svg'
+      },
+      {
+        _id: '1',
+        title: 'Beach Walk',
+        username: 'jasprem_is_cool123',
+        time: new Date('2025-05-22T14:00:00'),
+        profileImage: '/static/images/profiel.svg'
+      },
+      {
+        _id: '2',
+        title: 'Mountain Hike',
+        username: 'kioko_mickey',
+        time: new Date('2025-05-22T16:30:00'),
+        profileImage: '/static/images/profiel.svg'
+      }
+    ];
+  
+    res.render('home', { meetings });
+  });
+  
+  
+    
 
 function toonformulier(req, res) {
     res.render('form.ejs')
